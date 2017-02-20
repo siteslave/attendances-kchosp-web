@@ -1,0 +1,98 @@
+<form>
+  <section class="form-block">
+    <div class="form-group">
+      <label for="selects_1">เดือนที่ปฏิบัติงาน</label>
+      <div class="select">
+        <select [(ngModel)]="ym" (change)="clearWorks()" name="selects_1" style="width: 200px;">
+            <option [value]="i.ym" *ngFor="let i of works">{{ i.name }}</option>
+        </select>
+      </div>
+      <button type="button" [disabled]="!ym" (click)="getWorkDetail()" class="btn btn-sm btn-primary-outline">แสดง</button>
+      <button type="button" [disabled]="!selectedService.length" (click)="save()" class="btn btn-sm btn-success">บันทึก</button>
+    </div>
+  </section>
+</form>
+
+<div *ngIf="loading">
+  <span class="spinner spinner-inline">
+      Loading...
+  </span>
+  <span>
+      กรุณารอซักครู่...
+  </span>
+</div>
+<form>
+  <a href="javascript: void()" class="label label-purple">
+    วันทำการ
+    <span class="badge">{{ selectedService.length | number }}</span>
+</a>
+  <a href="javascript: void()" class="label label-blue">
+    ทั้งหมด
+    <span class="badge">{{ serviceDates.length * 3 | number }}</span>
+</a>
+<a href="javascript: void()" class="label label-orange">
+  วันหยุด เสาร์-อาทิตย์
+  <span class="badge">{{ totalWeekend | number }}</span>
+</a>
+<a href="javascript: void()" class="label label-light-blue">
+  วันปกติ
+  <span class="badge">{{ serviceDates.length - totalWeekend | number }}</span>
+</a>
+<clr-datagrid>
+  <clr-dg-placeholder>ไม่พบข้อมูล กรุณาตรวจสอบเงื่อนไข</clr-dg-placeholder>
+  <clr-dg-column>วันที่</clr-dg-column>
+  <clr-dg-column>เวรเช้า</clr-dg-column>
+  <clr-dg-column>เวรบ่าย</clr-dg-column>
+  <clr-dg-column>เวรดึก</clr-dg-column>
+
+  <clr-dg-row *ngFor="let s of serviceDates" [class.weekend-date]="s.weekday == 0 || s.weekday == 6">
+    <clr-dg-cell><span style="line-height: 24px;">{{s.date}}</span></clr-dg-cell>
+    <clr-dg-cell>
+      <clr-checkbox style="line-height: 24px;" 
+      [clrChecked]="checkSelected(s.work_date, '1')"
+      (change)="toggleSelect(s.work_date, '1')"
+      [clrDisabled]="checkDisabled(s.work_date, '1')">
+        เช้า
+      </clr-checkbox>
+    </clr-dg-cell>
+    <clr-dg-cell>
+      <clr-checkbox style="line-height: 24px;" 
+      [clrChecked]="checkSelected(s.work_date, '2')"
+      (change)="toggleSelect(s.work_date, '2')"
+      [clrDisabled]="checkDisabled(s.work_date, '2')">
+        บ่าย
+      </clr-checkbox>
+    </clr-dg-cell>
+    <clr-dg-cell>
+      <clr-checkbox style="line-height: 24px;" 
+      [clrChecked]="checkSelected(s.work_date, '3')"
+      (change)="toggleSelect(s.work_date, '3')"
+      [clrDisabled]="checkDisabled(s.work_date, '3')">
+        ดึก
+      </clr-checkbox>
+    </clr-dg-cell>
+  </clr-dg-row>
+
+  <clr-dg-footer>{{serviceDates.length}} วัน</clr-dg-footer>
+</clr-datagrid>
+
+</form>
+
+<clr-modal [(clrModalOpen)]="openConfirm" [clrModalSize]="'sm'" [clrModalClosable]="false">
+  <h3 class="modal-title">ยืนยันการบันทึก</h3>
+  <div class="modal-body">
+      <p *ngIf='!isSaving'>คุณต้องการบันทึกข้อมูล ใช่หรือไม่?...</p>
+      <div *ngIf='isSaving'>
+        <span class="spinner spinner-inline">
+            Loading...
+        </span>
+        <span>
+            Saving...
+        </span>
+      </div>
+    </div>
+  <div class="modal-footer">
+      <button type="button" class="btn btn-outline" (click)="openConfirm = false">ยกเลิก</button>
+      <button type="button" class="btn btn-primary" [disabled]="isSaving" (click)="doSave()">บันทึก</button>
+  </div>
+</clr-modal>

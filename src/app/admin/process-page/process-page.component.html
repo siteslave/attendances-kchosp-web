@@ -1,3 +1,93 @@
-<p>
-  process-page works!
-</p>
+<div class="row">
+  <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+
+    <div class="card">
+      <div class="card-header">
+        ประมวลผลข้อมูล
+      </div>
+      <div class="card-block">
+        <div class="alert alert-warning alert-sm" *ngIf="isError">
+          <div class="alert-item">
+            <span class="alert-text">
+              เกิดข้อผิดพลาด ไม่สามารถประมวลผลได้ได้
+          </span>
+          </div>
+        </div>
+        <div class="alert alert-success alert-sm" *ngIf="isSuccess">
+          <div class="alert-item">
+            <span class="alert-text">
+              ประมวลผลข้อมูลเสร็จเรียบร้อยแล้ว จำนวน <strong>{{ total | number }}</strong> รายการ
+          </span>
+          </div>
+        </div>
+        <div class="card-text">
+          <form>
+            <div class="form-group">
+              <label for="aForm_3">เลือกปี</label>
+              <div class="select">
+                <select name="slYear" [(ngModel)]="processYear">
+                    <option value="2017">2560</option>
+                    <option value="2018">2561</option>
+                    <option value="2019">2562</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="aForm_3">เลือกเดือน</label>
+              <div class="select">
+                <select name="slMonth" [(ngModel)]="processMonth">
+                    <option value="01">มกราคม</option>
+                    <option value="02">กุมภาพันธ์</option>
+                    <option value="03">มีนาคม</option>
+                    <option value="04">เมษายน</option>
+                    <option value="05">พฤษภาคม</option>
+                    <option value="06">มิถุนายน</option>
+                    <option value="07">กรกฎาคม</option>
+                    <option value="08">สิงหาคม</option>
+                    <option value="09">กันยายน</option>
+                    <option value="10">ตุลาคม</option>
+                    <option value="11">พฤศจิกายน</option>
+                    <option value="12">ธันวาคม</option>
+                </select>
+
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="card-footer">
+        <div class="progress loop" *ngIf="isProcessing">
+          <progress></progress>
+        </div>
+        <button [disabled]="isProcessing || !processMonth || !processYear" class="btn btn-danger" (click)="doProcess()">ประมวลผล</button>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-6 col-md-6">
+    <div class="card">
+      <div class="card-header">
+        ประวัติการประมวลผลข้อมูล
+      </div>
+      <div class="card-block" style="margin: 10px; padding: 0px 5px 5px 5px;">
+        <table class="table" style="margin: 0px;">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>วันที่ประมวลผล</th>
+              <th>ข้อมูลประจำเดือน</th>
+              <th>จำนวน</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let i of processLogs; let x = index">
+              <td>{{x + 1}}</td>
+              <td>{{ i.processAt }}</td>
+              <td>{{ i.month }}</td>
+              <td>{{ i.total | number }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

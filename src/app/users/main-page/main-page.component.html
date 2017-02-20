@@ -1,0 +1,58 @@
+<form>
+  <section class="form-block">
+    <div class="form-group">
+      <label for="selects_1">เดือนที่ปฏิบัติงาน</label>
+      <div class="select">
+        <select [(ngModel)]="ym" (change)="clearWorks()" name="selects_1" style="width: 200px;">
+            <option [value]="i.ym" *ngFor="let i of works">{{ i.name }}</option>
+        </select>
+      </div>
+      <button type="button" [disabled]="!ym" (click)="getWorkSummary()" class="btn btn-sm btn-primary-outline">แสดง</button>
+      <button type="button" [disabled]="!workDates.length" (click)="print()" class="btn btn-sm btn-success">พิมพ์</button>
+    </div>
+  </section>
+</form>
+
+<div *ngIf="loading">
+  <span class="spinner spinner-inline">
+      Loading...
+  </span>
+  <span>
+      กรุณารอซักครู่...
+  </span>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th rowspan="2">วันที่</th>
+            <th colspan="2">เวรเช้า</th>
+            <th colspan="2">เวรบ่าย</th>
+            <th colspan="2">เวรดึก</th>
+            <th rowspan="2">หมายเหตุ</th>
+        </tr>
+        <tr>
+            <th>เข้า</th>
+            <th>ออก</th>
+            <th>เข้า</th>
+            <th>ออก</th>
+            <th>เข้า</th>
+            <th>ออก</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr [class.hidden]="workDates.length">
+            <td colspan="8">ไม่พบข้อมูล</td>
+        </tr>
+        <tr *ngFor="let w of workDates" [class.hidden]="!workDates.length" [class.weekend]="w.weekday == 0 || w.weekday == 6">
+            <td>{{ w.thdate }}</td>
+            <td>{{ w.in01 }}</td>
+            <td>{{ w.in02 }}</td>
+            <td>{{ w.in03 }}</td>
+            <td>{{ w.out01 }}</td>
+            <td>{{ w.out01 }}</td>
+            <td>{{ w.out01 }}</td>
+            <td>{{ w.late }}</td>
+        </tr>
+    </tbody>
+</table>

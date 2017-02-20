@@ -1,3 +1,52 @@
-<p>
-  attendances-page works!
-</p>
+
+<form>
+    <section class="form-block">
+        <div class="form-group">
+            <label for="formFields_1">ข้อมูลระหว่างวันที่</label>
+            <input type="date" name="startDate" [(ngModel)]="startDate" placeholder="ตั้งแต่วันที่">
+            <input type="date" name="endDate" [(ngModel)]="endDate" placeholder="ถึงวันที่">
+            <button type="button" (click)="doProcess()" [disabled]="processing || !startDate || !endDate" class="btn btn-primary">แสดงข้อมูล</button>
+            <button type="button" (click)="excelExport()" [disabled]="processing || !works.length" class="btn btn-success">ส่งออกข้อมูล</button>
+        </div>
+    </section>
+</form>
+
+<div *ngIf="processing">
+  <span class="spinner spinner-inline">
+    Loading...
+</span>
+<span>
+    Please wait...
+</span>
+</div>
+<clr-datagrid>
+  <clr-dg-placeholder>ไม่พบข้อมูล กรุณาเลือกเงื่อนไข</clr-dg-placeholder>
+    <clr-dg-column>#</clr-dg-column>
+    <clr-dg-column [clrDgField]="'employee_code'">รหัสพนักงาน</clr-dg-column>
+    <clr-dg-column [clrDgField]="'employee_name'">ชื่อ-สกุล</clr-dg-column>
+    <clr-dg-column>แผนก</clr-dg-column>
+    <clr-dg-column>ลงเวลาทั้งหมด(เวร)</clr-dg-column>
+    <clr-dg-column>สาย</clr-dg-column>
+    <clr-dg-column>ออกก่อน</clr-dg-column>
+    <clr-dg-column>ไม่สแกนออก</clr-dg-column>
+    <clr-dg-column></clr-dg-column>
+
+    <clr-dg-row *clrDgItems="let work of works; let x = index">
+        <clr-dg-cell>{{x+1}}</clr-dg-cell>
+        <clr-dg-cell>{{work.employee_code}}</clr-dg-cell>
+        <clr-dg-cell>{{work.employee_name}}</clr-dg-cell>
+        <clr-dg-cell>{{work.department_name}}</clr-dg-cell>
+        <clr-dg-cell>{{work.total_work | number }}</clr-dg-cell>
+        <clr-dg-cell>{{work.total_late | number}}</clr-dg-cell>
+        <clr-dg-cell>{{work.total_exit_before | number}}</clr-dg-cell>
+        <clr-dg-cell>{{work.total_not_exit | number}}</clr-dg-cell>
+        <clr-dg-cell>
+          <a href="javascript:void()" (click)="print(work.employee_code)" class="label label-light-blue clickable">
+            พิมพ์
+          </a>
+        </clr-dg-cell>
+
+    </clr-dg-row>
+
+    <clr-dg-footer>{{works.length}} คน</clr-dg-footer>
+</clr-datagrid>
