@@ -11,3 +11,9 @@ $ npm i
 ```
 $ npm run build
 ```
+
+# Running
+
+```
+$ node server.js
+```
