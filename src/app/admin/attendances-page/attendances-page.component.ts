@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ChangeDetectorRef } from '@angular/core';
 import { AttendancesService } from '../attendances.service';
 @Component({
   selector: 'app-attendances-page',
@@ -15,7 +15,8 @@ export class AttendancesPageComponent implements OnInit {
   token: string;
   constructor(
     private attendancesService: AttendancesService,
-    @Inject('API_URL') private url: string
+    @Inject('API_URL') private url: string,
+    private changeDetectorRef: ChangeDetectorRef
   ) {
     this.token = sessionStorage.getItem('token');
    } 
@@ -29,6 +30,8 @@ export class AttendancesPageComponent implements OnInit {
       .then((results: any) => {
         this.processing = false;
         this.works = results.rows;
+
+        this.changeDetectorRef.detectChanges();
       }, err => {
         this.processing = false;
       });

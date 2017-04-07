@@ -5,67 +5,46 @@
 
 <div class="row">
   <div class="col-md-7">
-<table class="table">
-    <thead>
+    <table class="table">
+      <thead>
         <tr>
-            <th>#</th>
-            <th>วันที่นำเข้า</th>
-            <th>ตั้งแต่</th>
-            <th>ถึง</th>
-            <th>จำนวน Records</th>
+          <th>#</th>
+          <th>วันที่นำเข้า</th>
+          <th>ตั้งแต่</th>
+          <th>ถึง</th>
+          <th>จำนวน Records</th>
         </tr>
-    </thead>
-    <tbody>
+      </thead>
+      <tbody>
         <tr *ngFor="let i of importedLogs; let x = index">
-            <td>{{ x + 1 }}</td>
-            <td>{{ i.importedAt }}</td>
-            <td>{{ i.start }}</td>
-            <td>{{ i.end }}</td>
-            <td>{{ i.total | number }}</td>
+          <td>{{ x + 1 }}</td>
+          <td>{{ i.importedAt }}</td>
+          <td>{{ i.start }}</td>
+          <td>{{ i.end }}</td>
+          <td>{{ i.total | number }}</td>
         </tr>
-    </tbody>
-</table>
-</div>
+      </tbody>
+    </table>
+  </div>
 </div>
 
 <clr-wizard #wizard [clrWizardClosable]="false" [clrWizardSize]="'lg'">
   <div class="wizard-title">นำเข้าข้อมูล</div>
-  <div class="alert alert-warning alert-sm" *ngIf="isError">
-      <button type="button" class="close" aria-label="Close">
-          <clr-icon aria-hidden="true" shape="close"></clr-icon>
-      </button>
-      <div class="alert-item">
-          <span class="alert-text">
-              เกิดข้อผิดพลาด ไม่สามารถอัปโหลดไฟล์ได้
-          </span>
-      </div>
-  </div>
-  <div class="alert alert-success alert-sm" *ngIf="isSuccess">
-      <button type="button" class="close" aria-label="Close">
-          <clr-icon aria-hidden="true" shape="close"></clr-icon>
-      </button>
-      <div class="alert-item">
-          <span class="alert-text">
-              นำเข้าข้อมูลเสร็จเรียบร้อยแล้ว จำนวน <strong>{{ totalImported | number }}</strong> รายการ
-          </span>
-      </div>
-  </div>
-
   <clr-wizard-step [clrWizardStepId]="'step1'">ระบุช่วงวันที่</clr-wizard-step>
   <clr-wizard-step [clrWizardStepId]="'step2'">เลือกไฟล์ที่ต้องการ</clr-wizard-step>
 
   <clr-wizard-page [clrWizardPageNextDisabled]="!startDate || !endDate">
     <form>
-    <section class="form-block">
+      <section class="form-block">
         <div class="form-group">
-            <label for="aForm_1">ตั้งแต่วันที่</label>
-            <input type="date" (change)="changeDate()" [(ngModel)]="startDate" placeholder="dd/mm/yyyy" name="txtStart">
+          <label for="aForm_1">ตั้งแต่วันที่</label>
+          <input type="date" (change)="changeDate()" [(ngModel)]="startDate" placeholder="dd/mm/yyyy" name="txtStart">
         </div>
         <div class="form-group">
-            <label for="aForm_2">ถึงวันที่</label>
-            <input type="date" (change)="changeDate()" [(ngModel)]="endDate" id="aForm_2" placeholder="dd/mm/yyyy" name="txtEnd">
+          <label for="aForm_2">ถึงวันที่</label>
+          <input type="date" (change)="changeDate()" [(ngModel)]="endDate" id="aForm_2" placeholder="dd/mm/yyyy" name="txtEnd">
         </div>
-    </section>
+      </section>
     </form>
   </clr-wizard-page>
   <clr-wizard-page>
@@ -74,21 +53,22 @@
       <div class="progress loop">
         <progress></progress>
       </div>
-        <!--<span>please wait...</span>-->
+      <!--<span>please wait...</span>-->
     </div>
     <div class="drag-n-drop-container" ngFileDrop [options]="options" (onUpload)="handleUpload($event)" [ngClass]="{'file-over': hasBaseDropZoneOver}"
       (onFileOver)="fileOverBase($event)">
       <h1>ลากไฟล์วางลงที่นี่</h1>
       <label class="upload-button">
     <input type="file"
-           class="hidden"
-           ngFileSelect
-           [options]="options"
-           [events]="inputUploadEvents"
-           (beforeUpload)="beforeUpload($event)"
-           (onUpload)="handleUpload($event)">
+        accept=".csv"
+        class="hidden"
+        ngFileSelect
+        [options]="options"
+        [events]="inputUploadEvents"
+        (beforeUpload)="beforeUpload($event)"
+        (onUpload)="handleUpload($event)">
     เลือกไฟล์
   </label>
-      </div>
+    </div>
   </clr-wizard-page>
 </clr-wizard>

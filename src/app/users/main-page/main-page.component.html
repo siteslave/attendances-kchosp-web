@@ -47,11 +47,11 @@
         <tr *ngFor="let w of workDates" [class.hidden]="!workDates.length" [class.weekend]="w.weekday == 0 || w.weekday == 6">
             <td>{{ w.thdate }}</td>
             <td>{{ w.in01 }}</td>
+            <td>{{ w.out01 }}</td>
             <td>{{ w.in02 }}</td>
+            <td>{{ w.out02 }}</td>
             <td>{{ w.in03 }}</td>
-            <td>{{ w.out01 }}</td>
-            <td>{{ w.out01 }}</td>
-            <td>{{ w.out01 }}</td>
+            <td>{{ w.out03 }}</td>
             <td>{{ w.late }}</td>
         </tr>
     </tbody>

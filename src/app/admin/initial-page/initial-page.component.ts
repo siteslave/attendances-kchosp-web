@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AttendancesService } from '../attendances.service';
-
+import { AlertService } from "../alert.service";
 @Component({
   selector: 'app-initial-page',
   templateUrl: './initial-page.component.html',
@@ -8,8 +8,6 @@ import { AttendancesService } from '../attendances.service';
 })
 export class InitialPageComponent implements OnInit {
   isProcessing = false;
-  isSuccess = false;
-  isError = false;
   total = 0;
 
   processYear: string;
@@ -17,7 +15,10 @@ export class InitialPageComponent implements OnInit {
 
   initialsLogs: Array<any> = [];
 
-  constructor(private attendancesService: AttendancesService) { }
+  constructor(
+    private attendancesService: AttendancesService,
+    private alertService: AlertService
+  ) { }
 
   ngOnInit() {
     this.getInitialLogs();
@@ -37,21 +38,11 @@ export class InitialPageComponent implements OnInit {
       .then((results: any) => {
         this.isProcessing = false;
         if (results.ok) {
-          this.isError = false;
-          this.isSuccess = true;
-          this.total = results.total;
+          this.alertService.success('ผลการนำเข้าข้อมูล', 'นำเข้าทั้งหมด ' + results.total + ' รายการ');
           this.getInitialLogs();
         } else {
-          this.isError = true;
-          this.isSuccess = false;
+          this.alertService.error();
         }
-
-        const that = this;
-
-        setTimeout(function() {
-          that.isError = false;
-          that.isSuccess = false;
-        }, 5000);
       });
   }
 }

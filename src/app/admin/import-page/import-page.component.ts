@@ -3,6 +3,8 @@ import { Wizard, WizardStep } from 'clarity-angular';
 import { NgUploaderOptions, UploadedFile } from 'ngx-uploader';
 import { AttendancesService } from '../attendances.service';
 
+import { AlertService } from "../alert.service";
+
 @Component({
   selector: 'app-import-page',
   templateUrl: './import-page.component.html',
@@ -31,7 +33,8 @@ export class ImportPageComponent implements OnInit {
   constructor(
     @Inject(NgZone) private zone: NgZone,
     @Inject('API_URL') private url: string,
-    private attendancesService: AttendancesService
+    private attendancesService: AttendancesService,
+    private alertService: AlertService
   ) {
     this.inputUploadEvents = new EventEmitter<string>();
     this.token = sessionStorage.getItem('token');
@@ -94,20 +97,12 @@ export class ImportPageComponent implements OnInit {
           console.log(result);
           that.uploading = false;
           if (result.ok) {
-            that.totalImported = result.total;
-            that.isSuccess = true;
-            that.isError = false;
+            that.alertService.success('ผลการนำเข้าข้อมูล', 'นำเข้าทั้งหมด ' + result.total + ' รายการ');
             // get imported logs
             that.getImportedLogs();
           } else {
-            that.isSuccess = false;
-            that.isError = true;
+            that.alertService.error(JSON.stringify(result.error));
           }
-
-          setTimeout(() => {
-            that.isSuccess = false;
-            that.isError = false;
-          }, 5000);
         }
       });
     });

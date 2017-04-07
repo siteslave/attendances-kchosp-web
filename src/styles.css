@@ -43,3 +43,14 @@
 .hidden {
   display: none;
 }
+
+.datagrid {
+    border-collapse: separate;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    background-color: #fff;
+    color: #565656;
+    margin: 5px 0 0 0;
+    max-width: 100%;
+    width: 100%;
+}

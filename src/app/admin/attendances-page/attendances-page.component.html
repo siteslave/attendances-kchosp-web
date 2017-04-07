@@ -11,28 +11,20 @@
     </section>
 </form>
 
-<div *ngIf="processing">
-  <span class="spinner spinner-inline">
-    Loading...
-</span>
-<span>
-    Please wait...
-</span>
-</div>
-<clr-datagrid>
+<clr-datagrid [clrDgLoading]="processing">
   <clr-dg-placeholder>ไม่พบข้อมูล กรุณาเลือกเงื่อนไข</clr-dg-placeholder>
     <clr-dg-column>#</clr-dg-column>
     <clr-dg-column [clrDgField]="'employee_code'">รหัสพนักงาน</clr-dg-column>
     <clr-dg-column [clrDgField]="'employee_name'">ชื่อ-สกุล</clr-dg-column>
-    <clr-dg-column>แผนก</clr-dg-column>
+    <clr-dg-column [clrDgField]="'department_name'">แผนก</clr-dg-column>
     <clr-dg-column>ลงเวลาทั้งหมด(เวร)</clr-dg-column>
     <clr-dg-column>สาย</clr-dg-column>
     <clr-dg-column>ออกก่อน</clr-dg-column>
     <clr-dg-column>ไม่สแกนออก</clr-dg-column>
     <clr-dg-column></clr-dg-column>
 
-    <clr-dg-row *clrDgItems="let work of works; let x = index">
-        <clr-dg-cell>{{x+1}}</clr-dg-cell>
+    <clr-dg-row *clrDgItems="let work of works; let idx = index;">
+        <clr-dg-cell>{{idx + 1}}</clr-dg-cell>
         <clr-dg-cell>{{work.employee_code}}</clr-dg-cell>
         <clr-dg-cell>{{work.employee_name}}</clr-dg-cell>
         <clr-dg-cell>{{work.department_name}}</clr-dg-cell>
@@ -48,5 +40,9 @@
 
     </clr-dg-row>
 
-    <clr-dg-footer>{{works.length}} คน</clr-dg-footer>
+ <clr-dg-footer>
+    {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}}
+    of {{pagination.totalItems}} คน
+    <clr-dg-pagination #pagination [clrDgPageSize]="10"></clr-dg-pagination>
+</clr-dg-footer>
 </clr-datagrid>

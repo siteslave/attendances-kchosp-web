@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AttendancesService } from '../attendances.service';
-
+import { AlertService } from "../alert.service";
 @Component({
   selector: 'app-process-page',
   templateUrl: './process-page.component.html',
@@ -11,15 +11,12 @@ export class ProcessPageComponent implements OnInit {
   processMonth: any;
   processYear: any;
   isProcessing = false;
-  total = 0;
-
-  isSuccess = false;
-  isError = false;
 
   processLogs: Array<any> = [];
   
   constructor(
-    private attendancesService: AttendancesService
+    private attendancesService: AttendancesService,
+    private alertService: AlertService
   ) { }
 
   ngOnInit() {
@@ -38,26 +35,13 @@ export class ProcessPageComponent implements OnInit {
     this.isProcessing = true;
     this.attendancesService.doProcess(this.processYear, this.processMonth)
       .then((results: any) => {
-        console.log(results);
         this.isProcessing = false;
         if (results.ok) {
-          this.isSuccess = true;
-          this.isError = false;
-          this.total = results.total;
+          this.alertService.success('ประมวลผลเสร็จสิ้น', `ประมวลผลทั้งสิ้น ${results.total.toFixed()} รายการ`);
           this.getProcessLogs();
         } else {
-          this.isError = true;
-          this.isSuccess = false;
-          this.total = 0;
+          this.alertService.error(JSON.stringify(results.error));
         }
-
-        const that = this;
-
-        setTimeout(function () {
-          that.isError = false;
-          that.isSuccess = false;
-          that.total = 0;
-        }, 5000);
       });
   }
 

@@ -20,6 +20,8 @@ import { PositionPageComponent } from './position-page/position-page.component';
 import { AttendancesService } from './attendances.service';
 import { AuthModule } from '../auth/auth.module';
 import { AuthGuard } from '../auth-guard.service';
+import { AlertService } from './alert.service';
+
 @NgModule({
   imports: [
     CommonModule,
@@ -40,6 +42,6 @@ import { AuthGuard } from '../auth-guard.service';
     DepartmentPageComponent,
     PositionPageComponent
   ],
-  providers: [AttendancesService, AuthGuard]
+  providers: [AttendancesService, AlertService, AuthGuard]
 })
 export class AdminModule { }

@@ -5,21 +5,6 @@
         กำหนดข้อมูลตั้งต้นของเดือน
       </div>
       <div class="card-block">
-        <div class="alert alert-warning alert-sm" *ngIf="isError">
-          <div class="alert-item">
-            <span class="alert-text">
-              เกิดข้อผิดพลาด ไม่สามารถประมวลผลได้ได้
-          </span>
-          </div>
-        </div>
-        <div class="alert alert-success alert-sm" *ngIf="isSuccess">
-          <div class="alert-item">
-            <span class="alert-text">
-              ประมวลผลข้อมูลเสร็จเรียบร้อยแล้ว จำนวน <strong>{{ total | number }}</strong> รายการ
-          </span>
-          </div>
-        </div>
-
         <div class="card-text">
           <form>
             <div class="form-group">
