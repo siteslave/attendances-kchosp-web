@@ -13,7 +13,7 @@ export class ProcessPageComponent implements OnInit {
   isProcessing = false;
 
   processLogs: Array<any> = [];
-  
+
   constructor(
     private attendancesService: AttendancesService,
     private alertService: AlertService
@@ -28,7 +28,10 @@ export class ProcessPageComponent implements OnInit {
     this.attendancesService.getProcessLogs()
       .then((results: any) => {
         this.processLogs = results.rows;
-      });
+      })
+      .catch(() => {
+        this.alertService.serverError();
+    })
   }
 
   doProcess() {
@@ -42,7 +45,10 @@ export class ProcessPageComponent implements OnInit {
         } else {
           this.alertService.error(JSON.stringify(results.error));
         }
-      });
+      })
+      .catch(() => {
+        this.alertService.serverError();
+    })
   }
 
 }

@@ -28,7 +28,14 @@ export class InitialPageComponent implements OnInit {
     this.initialsLogs = [];
     this.attendancesService.getInitialLogs()
       .then((results: any) => {
-        this.initialsLogs = results.rows;
+        if (results.ok) {
+          this.initialsLogs = results.rows;
+        } else {
+          this.alertService.error(JSON.stringify(results.error));
+        }
+      })
+      .catch(() => {
+        this.alertService.serverError();
       });
   }
 
@@ -41,8 +48,11 @@ export class InitialPageComponent implements OnInit {
           this.alertService.success('ผลการนำเข้าข้อมูล', 'นำเข้าทั้งหมด ' + results.total + ' รายการ');
           this.getInitialLogs();
         } else {
-          this.alertService.error();
+          this.alertService.error(JSON.stringify(results.error));
         }
+      })
+      .catch(() => {
+        this.alertService.serverError();
       });
   }
 }

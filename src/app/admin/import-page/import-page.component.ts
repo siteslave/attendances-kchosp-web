@@ -48,8 +48,15 @@ export class ImportPageComponent implements OnInit {
     this.importedLogs = [];
     this.attendancesService.getImportedLogs()
       .then((results: any) => {
-        this.importedLogs = results.rows;
-      });
+        if (results.ok) {
+          this.importedLogs = results.rows;
+        } else {
+          this.alertService.error(JSON.stringify(results.error));
+        }
+      })
+      .catch(() => {
+        this.alertService.serverError();
+    })
   }
   changeDate() {
     this.options = new NgUploaderOptions({

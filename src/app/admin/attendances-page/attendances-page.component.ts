@@ -1,5 +1,7 @@
 import { Component, OnInit, Inject, ChangeDetectorRef } from '@angular/core';
 import { AttendancesService } from '../attendances.service';
+
+import { AlertService } from "../alert.service";
 @Component({
   selector: 'app-attendances-page',
   templateUrl: './attendances-page.component.html',
@@ -16,10 +18,11 @@ export class AttendancesPageComponent implements OnInit {
   constructor(
     private attendancesService: AttendancesService,
     @Inject('API_URL') private url: string,
-    private changeDetectorRef: ChangeDetectorRef
+    private changeDetectorRef: ChangeDetectorRef,
+    private alertService: AlertService
   ) {
     this.token = sessionStorage.getItem('token');
-   } 
+  }
 
   ngOnInit() {
   }
@@ -29,10 +32,15 @@ export class AttendancesPageComponent implements OnInit {
     this.attendancesService.doProcessSummary(this.startDate, this.endDate)
       .then((results: any) => {
         this.processing = false;
-        this.works = results.rows;
-
-        this.changeDetectorRef.detectChanges();
+        if (results.ok) {
+          this.works = results.rows;
+          this.alertService.success();
+          this.changeDetectorRef.detectChanges();
+        } else {
+          this.alertService.error(JSON.stringify(results.error));
+        }
       }, err => {
+        this.alertService.serverError();
         this.processing = false;
       });
   }
