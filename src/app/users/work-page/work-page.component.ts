@@ -49,7 +49,7 @@ export class WorkPageComponent implements OnInit {
   }
 
   checkDisabled(date, type): boolean {
-    const idx = _.findIndex(this.workDates, { work_date: date, work_type: type, is_process: 'Y' });
+    const idx = _.findIndex(this.workDates, { work_date: date, is_process: 'Y' });
     if (idx > -1) {
       return true;
     } else {
