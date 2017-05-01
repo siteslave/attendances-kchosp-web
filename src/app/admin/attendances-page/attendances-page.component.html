@@ -1,5 +1,5 @@
 
-<form>
+<!--<form>
     <section class="form-block">
         <div class="form-group">
             <label for="formFields_1">ข้อมูลระหว่างวันที่</label>
@@ -9,22 +9,35 @@
             <button type="button" (click)="excelExport()" [disabled]="processing || !works.length" class="btn btn-success">ส่งออกข้อมูล</button>
         </div>
     </section>
-</form>
+</form>-->
+
+    <div class="row">
+      <div class="col-md-3" [style.padding-top.px]="6">
+        <my-date-picker-th name="mydate" [options]="myDatePickerOptions" [(ngModel)]="startDate" required>
+        </my-date-picker-th>
+      </div>
+      <div class="col-md-3" [style.padding-top.px]="6">
+        <my-date-picker-th name="mydate" [options]="myDatePickerOptions" [(ngModel)]="endDate" required>
+        </my-date-picker-th>
+      </div>
+      <div class="col-md-3">
+        <button type="button" (click)="doProcess()" [disabled]="processing || !startDate || !endDate" class="btn btn-primary">แสดงข้อมูล</button>
+        <button type="button" (click)="excelExport()" [disabled]="processing || !works.length" class="btn btn-success">ส่งออกข้อมูล</button>
+      </div>
+    </div>
 
 <clr-datagrid [clrDgLoading]="processing">
   <clr-dg-placeholder>ไม่พบข้อมูล กรุณาเลือกเงื่อนไข</clr-dg-placeholder>
-    <clr-dg-column>#</clr-dg-column>
-    <clr-dg-column [clrDgField]="'employee_code'">รหัสพนักงาน</clr-dg-column>
-    <clr-dg-column [clrDgField]="'employee_name'">ชื่อ-สกุล</clr-dg-column>
-    <clr-dg-column [clrDgField]="'department_name'">แผนก</clr-dg-column>
-    <clr-dg-column>ลงเวลาทั้งหมด(เวร)</clr-dg-column>
-    <clr-dg-column>สาย</clr-dg-column>
-    <clr-dg-column>ออกก่อน</clr-dg-column>
-    <clr-dg-column>ไม่สแกนออก</clr-dg-column>
-    <clr-dg-column></clr-dg-column>
+    <clr-dg-column [style.width.%]="10" [clrDgField]="'employee_code'">รหัส</clr-dg-column>
+    <clr-dg-column [style.width.%]="25" [clrDgField]="'employee_name'">ชื่อ-สกุล</clr-dg-column>
+    <clr-dg-column [style.width.%]="15" [clrDgField]="'department_name'">แผนก</clr-dg-column>
+    <clr-dg-column [style.width.%]="10">ลงเวลาทั้งหมด(เวร)</clr-dg-column>
+    <clr-dg-column [style.width.%]="10">สาย</clr-dg-column>
+    <clr-dg-column [style.width.%]="10">ออกก่อน</clr-dg-column>
+    <clr-dg-column [style.width.%]="10">ไม่สแกนออก</clr-dg-column>
+    <clr-dg-column [style.width.%]="10"></clr-dg-column>
 
-    <clr-dg-row *clrDgItems="let work of works; let idx = index;">
-        <clr-dg-cell>{{idx + 1}}</clr-dg-cell>
+    <clr-dg-row *clrDgItems="let work of works">
         <clr-dg-cell>{{work.employee_code}}</clr-dg-cell>
         <clr-dg-cell>{{work.employee_name}}</clr-dg-cell>
         <clr-dg-cell>{{work.department_name}}</clr-dg-cell>

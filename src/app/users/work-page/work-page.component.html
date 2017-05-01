@@ -7,8 +7,8 @@
             <option [value]="i.ym" *ngFor="let i of works">{{ i.name }}</option>
         </select>
       </div>
-      <button type="button" [disabled]="!ym" (click)="getWorkDetail()" class="btn btn-sm btn-primary-outline">แสดง</button>
-      <button type="button" [disabled]="!selectedService.length" (click)="save()" class="btn btn-sm btn-success">บันทึก</button>
+      <button type="button" [disabled]="!ym || loading" (click)="getWorkDetail()" class="btn btn-sm btn-primary-outline">แสดง</button>
+      <button type="button" [disabled]="!selectedService.length || loading" (click)="save()" class="btn btn-sm btn-success">บันทึก</button>
     </div>
   </section>
 </form>

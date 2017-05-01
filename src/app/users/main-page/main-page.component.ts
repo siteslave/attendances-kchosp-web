@@ -36,6 +36,8 @@ export class MainPageComponent implements OnInit {
   }
 
   getWorkSummary() {
+    this.loading = true;
+    this.workDates = [];
     if (this.ym) {
       this.userService.getWorkSummary(this.ym)
         .then((response: any) => {
@@ -44,7 +46,9 @@ export class MainPageComponent implements OnInit {
           } else {
             console.log(response.message);
           }
+          this.loading = false;
         }, error => {
+          this.loading = false;
           console.log(error);
         });
     }

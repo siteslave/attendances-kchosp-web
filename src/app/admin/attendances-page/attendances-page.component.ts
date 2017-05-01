@@ -1,5 +1,7 @@
 import { Component, OnInit, Inject, ChangeDetectorRef } from '@angular/core';
 import { AttendancesService } from '../attendances.service';
+import { IMyOptions, IMyDayLabels } from 'mydatepicker-th';
+import * as moment from 'moment';
 
 import { AlertService } from "../alert.service";
 @Component({
@@ -10,11 +12,17 @@ import { AlertService } from "../alert.service";
 export class AttendancesPageComponent implements OnInit {
 
   works: Array<any> = [];
-  startDate: string;
-  endDate: string;
+  startDate: any;
+  endDate: any;
   processing = false;
 
   token: string;
+
+  public myDatePickerOptions: IMyOptions = {
+    dateFormat: 'dd mmm yyyy',
+    // editableMonthAndYear: false
+  };
+
   constructor(
     private attendancesService: AttendancesService,
     @Inject('API_URL') private url: string,
@@ -22,6 +30,8 @@ export class AttendancesPageComponent implements OnInit {
     private alertService: AlertService
   ) {
     this.token = sessionStorage.getItem('token');
+    this.startDate = { date: { year: moment().get('year'), month: moment().get('month') + 1, day: moment().get('date') } };
+    this.endDate = { date: { year: moment().get('year'), month: moment().get('month') + 1, day: moment().get('date') } };
   }
 
   ngOnInit() {
@@ -29,7 +39,9 @@ export class AttendancesPageComponent implements OnInit {
 
   doProcess() {
     this.processing = true;
-    this.attendancesService.doProcessSummary(this.startDate, this.endDate)
+    const _start = moment(this.startDate.jsdate).format('YYYY-MM-DD');
+    const _end = moment(this.endDate.jsdate).format('YYYY-MM-DD');
+    this.attendancesService.doProcessSummary(_start, _end)
       .then((results: any) => {
         this.processing = false;
         if (results.ok) {
@@ -47,14 +59,18 @@ export class AttendancesPageComponent implements OnInit {
 
   print(employeeCode) {
     if (this.startDate && this.endDate) {
-      const url = `${this.url}/admin/print/${employeeCode}/${this.startDate}/${this.endDate}?token=${this.token}`;
+      const _start = moment(this.startDate.jsdate).format('YYYY-MM-DD');
+      const _end = moment(this.endDate.jsdate).format('YYYY-MM-DD');
+      const url = `${this.url}/admin/print/${employeeCode}/${_start}/${_end}?token=${this.token}`;
       window.open(url, '_blank');
     }
   }
 
   excelExport() {
     if (this.startDate && this.endDate) {
-      const url = `${this.url}/admin/export-excel/${this.startDate}/${this.endDate}?token=${this.token}`;
+      const _start = moment(this.startDate.jsdate).format('YYYY-MM-DD');
+      const _end = moment(this.endDate.jsdate).format('YYYY-MM-DD');
+      const url = `${this.url}/admin/export-excel/${_start}/${_end}?token=${this.token}`;
       window.open(url, '_blank');
     }
   }

@@ -6,6 +6,7 @@ import { AdminRoutingModule } from './admin-routing.module';
 import { AdminComponent } from './admin.component';
 
 import { NgUploaderModule } from 'ngx-uploader';
+import { MyDatePickerTHModule } from 'mydatepicker-th';
 
 import { ClarityModule } from 'clarity-angular';
 import { MainPageComponent } from './main-page/main-page.component';
@@ -26,7 +27,8 @@ import { AlertService } from './alert.service';
     ClarityModule,
     NgUploaderModule,
     FormsModule,
-    AuthModule
+    AuthModule,
+    MyDatePickerTHModule
   ],
   declarations: [
     AdminComponent,

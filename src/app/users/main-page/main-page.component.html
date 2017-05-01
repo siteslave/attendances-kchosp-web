@@ -7,8 +7,8 @@
             <option [value]="i.ym" *ngFor="let i of works">{{ i.name }}</option>
         </select>
       </div>
-      <button type="button" [disabled]="!ym" (click)="getWorkSummary()" class="btn btn-sm btn-primary-outline">แสดง</button>
-      <button type="button" [disabled]="!workDates.length" (click)="print()" class="btn btn-sm btn-success">พิมพ์</button>
+      <button type="button" [disabled]="!ym || loading" (click)="getWorkSummary()" class="btn btn-sm btn-primary-outline">แสดง</button>
+      <button type="button" [disabled]="!workDates.length || loading" (click)="print()" class="btn btn-sm btn-success">พิมพ์</button>
     </div>
   </section>
 </form>
@@ -52,7 +52,8 @@
             <td>{{ w.out02 }}</td>
             <td>{{ w.in03 }}</td>
             <td>{{ w.out03 }}</td>
-            <td>{{ w.late }}</td>
+            <td *ngIf="!w.late"></td>
+            <td *ngIf="w.late"><span class="label label-danger">{{w.late}}</span></td>
         </tr>
     </tbody>
 </table>

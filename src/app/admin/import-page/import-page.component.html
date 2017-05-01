@@ -29,11 +29,18 @@
 </div>
 
 <clr-wizard #wizard [clrWizardClosable]="false" [clrWizardSize]="'lg'">
-  <div class="wizard-title">นำเข้าข้อมูล</div>
-  <clr-wizard-step [clrWizardStepId]="'step1'">ระบุช่วงวันที่</clr-wizard-step>
-  <clr-wizard-step [clrWizardStepId]="'step2'">เลือกไฟล์ที่ต้องการ</clr-wizard-step>
+  <clr-wizard-title>นำเข้าข้อมูล</clr-wizard-title>
+
+  <clr-wizard-button [type]="'cancel'">ยกเลิก</clr-wizard-button>
+  <clr-wizard-button [type]="'previous'">กลับ</clr-wizard-button>
+  <clr-wizard-button [type]="'next'">ต่อไป</clr-wizard-button>
+  <clr-wizard-button [type]="'finish'">สิ้นสุด</clr-wizard-button>
+
+  <!--<clr-wizard-step [clrWizardStepId]="'step1'">ระบุช่วงวันที่</clr-wizard-step>
+  <clr-wizard-step [clrWizardStepId]="'step2'">เลือกไฟล์ที่ต้องการ</clr-wizard-step>-->
 
   <clr-wizard-page [clrWizardPageNextDisabled]="!startDate || !endDate">
+    <ng-template clrPageTitle>ระบุช่วงวันที่</ng-template>
     <form>
       <section class="form-block">
         <div class="form-group">
@@ -48,6 +55,7 @@
     </form>
   </clr-wizard-page>
   <clr-wizard-page>
+    <ng-template clrPageTitle>เลือกไฟล์ที่ต้องการ</ng-template>
     <div class="progress-block" *ngIf="uploading">
       <label>Uploading</label>
       <div class="progress loop">
