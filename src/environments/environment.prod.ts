@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'http://172.16.0.3:8010'
+  apiUrl: 'http://www.kchosp.go.th:8010'
 };
