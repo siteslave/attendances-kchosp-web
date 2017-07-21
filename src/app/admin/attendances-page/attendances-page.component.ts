@@ -20,6 +20,8 @@ export class AttendancesPageComponent implements OnInit {
 
   public myDatePickerOptions: IMyOptions = {
     dateFormat: 'dd mmm yyyy',
+    showClearDateBtn: false,
+    editableDateField: false
     // editableMonthAndYear: false
   };
 
