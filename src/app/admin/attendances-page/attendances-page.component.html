@@ -29,12 +29,13 @@
 <clr-datagrid [clrDgLoading]="processing">
   <clr-dg-placeholder>ไม่พบข้อมูล กรุณาเลือกเงื่อนไข</clr-dg-placeholder>
     <clr-dg-column [style.width.%]="10" [clrDgField]="'employee_code'">รหัส</clr-dg-column>
-    <clr-dg-column [style.width.%]="25" [clrDgField]="'employee_name'">ชื่อ-สกุล</clr-dg-column>
-    <clr-dg-column [style.width.%]="15" [clrDgField]="'department_name'">แผนก</clr-dg-column>
+    <clr-dg-column [style.width.%]="20" [clrDgField]="'employee_name'">ชื่อ-สกุล</clr-dg-column>
+    <clr-dg-column [style.width.%]="10" [clrDgField]="'department_name'">แผนก</clr-dg-column>
     <clr-dg-column [style.width.%]="10">ลงเวลาทั้งหมด(เวร)</clr-dg-column>
     <clr-dg-column [style.width.%]="10">สาย</clr-dg-column>
     <clr-dg-column [style.width.%]="10">ออกก่อน</clr-dg-column>
     <clr-dg-column [style.width.%]="10">ไม่สแกนออก</clr-dg-column>
+    <clr-dg-column [style.width.%]="10">ไปราชการ</clr-dg-column>
     <clr-dg-column [style.width.%]="10"></clr-dg-column>
 
     <clr-dg-row *clrDgItems="let work of works">
@@ -45,6 +46,7 @@
         <clr-dg-cell>{{work.total_late | number}}</clr-dg-cell>
         <clr-dg-cell>{{work.total_exit_before | number}}</clr-dg-cell>
         <clr-dg-cell>{{work.total_not_exit | number}}</clr-dg-cell>
+        <clr-dg-cell>{{work.meeting_total | number}}</clr-dg-cell>
         <clr-dg-cell>
           <a href="javascript:void()" (click)="print(work.employee_code)" class="label label-light-blue clickable">
             พิมพ์
